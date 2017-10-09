@@ -1,0 +1,11 @@
+import java.util.ArrayList;
+
+public class Node {
+//	static evaluation
+	private int e;
+//	list of daughters
+	private ArrayList<Node> origDaughters;
+//	list of reorderedDaughters
+	private ArrayList<Node> reorderedDaughters;
+	
+}
