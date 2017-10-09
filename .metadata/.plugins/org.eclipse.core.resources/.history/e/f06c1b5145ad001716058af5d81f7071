@@ -1,0 +1,19 @@
+import java.util.ArrayList;
+
+public class TreeConstructor {
+	
+//	INSTANCE VARIABLES
+//	height of tree
+	private int height;
+//	branching factor
+	private int branchingFactor;
+//	approximation
+	private int approx;
+	
+//	PUBLIC CONSTRUCTORS
+	public TreeConstructor(int h, int b, int a) {
+		height = h;
+		branchingFactor = b;
+		approx = a;
+	}
+}
