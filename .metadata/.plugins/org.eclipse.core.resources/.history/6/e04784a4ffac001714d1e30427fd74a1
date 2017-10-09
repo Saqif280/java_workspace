@@ -10,7 +10,6 @@ public class Node {
 //	list of reorderedDaughters
 	private ArrayList<Node> reorderedDaughters;
 	
-	
 //	PUBLIC CONSTRUCTORS
 //	create node with static evaluation
 	public Node(int static_evaluation) {
@@ -19,19 +18,14 @@ public class Node {
 		reorderedDaughters = new ArrayList<Node>();
 	}
 	
-	
 //	ACCESSOR METHODS
 //	get static evaluation
 	public int getE() {
 		return e;
 	}
 //	get daughters
-	public ArrayList<Node> getDaughters() {
+	public int getDaughters() {
 		return daughters;
-	}
-//	get reordered daughters
-	public ArrayList<Node> getReorderedDaughters() {
-		return reorderedDaughters;
 	}
 	
 	

@@ -120,3 +120,6 @@ Java Model Exception: Java Model Status [<project root> [in AI_a1] is not on its
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1499)
 !SUBENTRY 1 org.eclipse.jdt.core 4 1006 2017-10-09 14:53:18.948
 !MESSAGE <project root> [in AI_a1] is not on its project's build path
+
+!ENTRY org.eclipse.ui 4 4 2017-10-09 15:36:04.901
+!MESSAGE Could not retrieve EHandlerService or ICommandService from context evaluation context fororg.eclipse.ui.edit.text.toggleBlockSelectionMode

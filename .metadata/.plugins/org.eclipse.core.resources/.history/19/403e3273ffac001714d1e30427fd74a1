@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class Node {
 	
-//	INSTANCE VARIABLES
 //	static evaluation
 	private int e;
 //	list of daughters
@@ -10,8 +9,6 @@ public class Node {
 //	list of reorderedDaughters
 	private ArrayList<Node> reorderedDaughters;
 	
-	
-//	PUBLIC CONSTRUCTORS
 //	create node with static evaluation
 	public Node(int static_evaluation) {
 		e = static_evaluation;
@@ -19,23 +16,6 @@ public class Node {
 		reorderedDaughters = new ArrayList<Node>();
 	}
 	
-	
-//	ACCESSOR METHODS
-//	get static evaluation
-	public int getE() {
-		return e;
-	}
-//	get daughters
-	public ArrayList<Node> getDaughters() {
-		return daughters;
-	}
-//	get reordered daughters
-	public ArrayList<Node> getReorderedDaughters() {
-		return reorderedDaughters;
-	}
-	
-	
-//	MUTATOR METHODS
 //	add daughter
 	public void addDaughter(Node d) {
 		daughters.add(d);
