@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class TreeConstructor {
 	
 //	INSTANCE VARIABLES
@@ -9,6 +11,11 @@ public class TreeConstructor {
 	public TreeConstructor(int h, int b, int a, Node node) {
 //		t set to random value between -2500 and 2500
 		int t = (int)(Math.random()*5000-2500+1);
+		createTree(h,b,a,t,node);
+	}
+	
+//	call with non-root node
+	private TreeConstructor(int h, int b, int a, int t, Node node) {
 		createTree(h,b,a,t,node);
 	}
 	

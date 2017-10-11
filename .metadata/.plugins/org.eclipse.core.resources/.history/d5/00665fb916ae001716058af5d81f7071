@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class TreeConstructor {
 	
 //	INSTANCE VARIABLES
@@ -12,7 +14,12 @@ public class TreeConstructor {
 		createTree(h,b,a,t,node);
 	}
 	
-//	creates nodes with 
+//	call with non-root node
+	private TreeConstructor(int h, int b, int a, int t, Node node) {
+		createTree(h,b,a,t,node);
+	}
+	
+	
 	private void createTree(int h, int b, int a, int t, Node node) {	
 //		if interior node
 		if (h > 1) {
@@ -40,7 +47,7 @@ public class TreeConstructor {
 				}
 				Node daughter = new Node();
 				node.addDaughter(daughter);
-				createTree(h-1,b,a,newT,daughter);
+				new TreeConstructor(h-1,b,a,newT,daughter);
 			}
 		}
 //		if leaf node

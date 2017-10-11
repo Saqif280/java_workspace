@@ -41,15 +41,12 @@ public class Node {
 	
 	
 //	MUTATOR METHODS
-//	set static evaluation
-	public void setE(int staticEvaluation) {
-		e = staticEvaluation;
-	}
 //	add daughter
 	public void addDaughter(Node d) {
 		daughters.add(d);
 		reorderedDaughters.add(d);
 	}
+	
 //	set reordered daughters list
 	public void reorderDaughters(ArrayList<Node> newOrder) {
 		reorderedDaughters = newOrder;
