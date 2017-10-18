@@ -7,10 +7,10 @@ public class TreeConstructor {
 
 /**	Tree Constructor
  * 
- * @param h = height
- * @param b = branching factor
- * @param a = approx (for error)
- * @param node = root node
+ * @param h
+ * @param b
+ * @param a
+ * @param node
  */
 	public TreeConstructor(int h, int b, int a, Node node) {
 //		t set to random value between -2500 and 2500

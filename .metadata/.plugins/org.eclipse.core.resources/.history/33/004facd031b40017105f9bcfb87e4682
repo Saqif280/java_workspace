@@ -1,0 +1,13 @@
+
+public class AlphaBeta {
+	public int ab(Node node, int ht, int achievable, int hope) {
+//		if height is zero or no more moves exist
+		if(ht==0 || node.getDaughters().isEmpty()) {
+			return node.getE();
+		} else {
+			int temp;
+//			for (int i=0;i<)
+		}
+		return 1;
+	}
+}

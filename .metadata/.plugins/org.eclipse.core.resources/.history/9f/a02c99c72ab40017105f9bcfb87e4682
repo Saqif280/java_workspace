@@ -6,9 +6,9 @@ public class GameRunner {
 		Node root = new Node();
 		new TreeConstructor(3,3,0,root);
 		System.out.println();
-		System.out.println(root.getE());
+		System.out.println("Root: "+ root.getE());
 		for(int i=0;i<root.getDaughters().size();i++) {
-			System.out.print("  " + root.getDaughters().get(i).getE()+ ": ");
+			System.out.print(" + " + root.getDaughters().get(i).getE()+ ": ");
 			for(int j=0;j<root.getDaughters().get(i).getDaughters().size();j++) {
 				System.out.print("(" + root.getDaughters().get(i).getDaughters().get(j).getE()+"), ");
 			}
