@@ -1,7 +1,0 @@
-public class TreeConstructor {
-	
-//	PUBLIC CONSTRUCTORS
-	public TreeConstructor() {
-		
-	}
-}

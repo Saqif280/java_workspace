@@ -5,7 +5,12 @@ public class TreeConstructor {
 	
 //	PUBLIC CONSTRUCTORS
 	
-//	call with root node
+	/*
+	 * call with root node
+	 * h = height
+	 * b = branching factor
+	 * a = approx (used for error)
+	 * */
 	public TreeConstructor(int h, int b, int a, Node node) {
 //		t set to random value between -2500 and 2500
 		int t = (int)(Math.random()*5000-2500+1);
@@ -31,7 +36,7 @@ public class TreeConstructor {
 //			choose random daughter
 			int randDaughterIndex = (int)(Math.random()*numDaughters);
 //			create numDaughters daughters
-			for(int i=numDaughters;i>0;i--) {
+			for(int i=numDaughters-1;i>=0;i--) {
 				int newT;
 				if (i==randDaughterIndex) {
 					newT = -1*t;
