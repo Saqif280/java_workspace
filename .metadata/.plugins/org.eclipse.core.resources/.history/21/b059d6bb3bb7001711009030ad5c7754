@@ -1,0 +1,70 @@
+
+public class AlphaBeta {
+	
+	private int staticEvaluations;
+	
+	
+	public AlphaBeta() {
+		staticEvaluations = 0;
+	}
+	
+/**	alpha beta algorithm
+ * 
+ * @param node
+ * @param ht
+ * @param achievable
+ * @param hope
+ * @param useModDaughters
+ * @return
+ */
+	public int ab(Node node, int ht, int achievable, int hope, boolean useModDaughters) {
+		if(!useModDaughters) {
+			return abOnD1(node,ht,achievable,hope);
+		} else {
+			return abOnD2(node,ht,achievable,hope);
+		}
+	}
+	
+	private int abOnD1(Node node, int ht, int achievable, int hope){
+//		if height is zero or no more moves exist
+		if(ht==0 || node.getDaughters().isEmpty()) {
+			staticEvaluations++;
+			return node.getE();
+		} else {
+			int temp;
+//			for each move
+			for (int i=0;i<node.getDaughters().size();i++) {
+				temp = abOnD1(node.getDaughters().get(i),ht-1,-hope,-achievable);
+				if (temp >= hope) {
+					return temp;
+				}
+				achievable = Math.max(temp, achievable);
+			}
+			return achievable;
+		}
+	}
+	
+	private int abOnD2(Node node, int ht, int achievable, int hope){
+//		if height is zero or no more moves exist
+		if(ht==0 || node.getReorderedDaughters().isEmpty()) {
+			staticEvaluations++;
+			return node.getE();
+		} else {
+			int temp;
+//			for each move
+			for (int i=0;i<node.getReorderedDaughters().size();i++) {
+				temp = abOnD2(node.getReorderedDaughters().get(i),ht-1,-hope,-achievable);
+				if (temp >= hope) {
+					return temp;
+				}
+				achievable = Math.max(temp, achievable);
+			}
+			return achievable;
+		}
+	}
+	
+	
+	public int getNumSE() {
+		return staticEvaluations;
+	}
+}

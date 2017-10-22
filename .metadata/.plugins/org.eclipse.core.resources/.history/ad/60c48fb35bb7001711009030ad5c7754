@@ -1,0 +1,110 @@
+import java.util.ArrayList;
+
+public class AlphaBeta {
+	
+	private int staticEvaluations;
+	
+	
+	public AlphaBeta() {
+		staticEvaluations = 0;
+	}
+	
+/**	alpha beta algorithm
+ * 
+ * @param node
+ * @param ht
+ * @param achievable
+ * @param hope
+ * @param useModDaughters
+ * @return
+ */
+	public ArrayList<Object> ab(Node node, int ht, int achievable, int hope, boolean useModDaughters) {
+		if(!useModDaughters) {
+			return abOnD1(node,ht,achievable,hope);
+		} else {
+			return abOnD2(node,ht,achievable,hope);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private ArrayList<Object> abOnD1(Node node, int ht, int achievable, int hope){
+//		if height is zero or no more moves exist
+		if(ht==0 || node.getDaughters().isEmpty()) {
+			staticEvaluations++;
+			ArrayList<Object> retValues = new ArrayList<Object>();
+			ArrayList<Node> principalVar = new ArrayList<Node>();
+			retValues.add(node.getE());
+			retValues.add(principalVar);
+			return retValues;
+		} else {
+			ArrayList<Object> temp = null;
+			int tempAchievable;
+			ArrayList<Node> tempPrincipalVar;
+//			for each move
+			for (int i=0;i<node.getDaughters().size();i++) {
+				temp = abOnD1(node.getDaughters().get(i),ht-1,-hope,-achievable);
+				tempAchievable = -1*(int)temp.get(0);
+				tempPrincipalVar = (ArrayList<Node>)temp.get(1);
+//				if better than we can hope
+				if (tempAchievable >= hope) {
+//					add daughter to principal variation
+					//tempPrincipalVar.add(node);
+					temp.set(1,tempPrincipalVar);
+					return temp;
+				}
+				achievable = Math.max(tempAchievable, achievable);
+				if(achievable >= tempAchievable) {
+					tempPrincipalVar.add(node);
+					temp.set(1,tempPrincipalVar);
+				}
+			}
+//			return best daughter
+			temp.set(0,achievable);
+			//temp.set(2,);
+			return temp;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private ArrayList<Object> abOnD2(Node node, int ht, int achievable, int hope){
+//		if height is zero or no more moves exist
+		if(ht==0 || node.getReorderedDaughters().isEmpty()) {
+			staticEvaluations++;
+			ArrayList<Object> retValues = new ArrayList<Object>();
+			ArrayList<Node> principalVar = new ArrayList<Node>();
+			retValues.add(node.getE());
+			retValues.add(principalVar);
+			return retValues;
+		} else {
+			ArrayList<Object> temp = null;
+			int tempAchievable;
+			ArrayList<Node> tempPrincipalVar;
+//			for each move
+			for (int i=0;i<node.getDaughters().size();i++) {
+				temp = abOnD1(node.getReorderedDaughters().get(i),ht-1,-hope,-achievable);
+				tempAchievable = -1*(int)temp.get(0);
+				tempPrincipalVar = (ArrayList<Node>)temp.get(1);
+//				if better than we can hope
+				if (tempAchievable >= hope) {
+//					add daughter to principal variation
+					tempPrincipalVar.add(node);
+					temp.set(1,tempPrincipalVar);
+					return temp;
+				}
+				achievable = Math.max(tempAchievable, achievable);
+//				if(achievable == tempAchievable) {
+//					
+//				}
+			}
+//			return best daughter
+			temp.set(0,achievable);
+			//temp.set(2,);
+			return temp;
+		}
+	}
+	
+	
+	public int getNumSE() {
+		return staticEvaluations;
+	}
+}

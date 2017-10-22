@@ -1,0 +1,35 @@
+import java.util.ArrayList;
+
+public class GameRunner {
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+//		test for tree constructor
+		Node root = new Node();
+		new TreeConstructor(3,3,0,root);
+		System.out.println("Game Tree:");
+		System.out.println(root.getE());
+		for(int i=0;i<root.getDaughters().size();i++) {
+			System.out.print("  " + root.getDaughters().get(i).getE()+ ": ");
+			for(int j=0;j<root.getDaughters().get(i).getDaughters().size();j++) {
+				System.out.print("(" + root.getDaughters().get(i).getDaughters().get(j).getE()+"), ");
+			}
+			System.out.println();
+		}
+		
+//		test alphabeta
+		AlphaBeta ab = new AlphaBeta();
+		ArrayList<Object> values = ab.ab(root,6,-10000,10000,false);
+		System.out.println(values.get(0));
+//		test static evaluations count
+		System.out.println(ab.getNumSE());
+//		test principal variation
+		@SuppressWarnings("unchecked")
+		ArrayList<Node> principalVar = (ArrayList<Node>)values.get(1);
+		for(int i=0; i<principalVar.size(); i++) {
+			System.out.print(principalVar.get(i).getE() + ", ");
+		}
+		
+	}
+}
