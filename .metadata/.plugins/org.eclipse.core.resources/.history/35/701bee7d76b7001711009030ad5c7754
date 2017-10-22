@@ -47,10 +47,9 @@ public class AlphaBeta {
 				tempAchievable = -1*(int)temp.get(0);
 //				if better than we can hope, cutoff?
 				if (tempAchievable >= hope) {
-					bestDaughter = node.getDaughters().get(i);
-					tempPrincipalVar = (ArrayList<Node>)temp.get(1);
-					tempPrincipalVar.add(0,bestDaughter);
-					temp.set(1,tempPrincipalVar);
+					if (ht==4) {
+						System.out.println("BD: "+node.getDaughters().get(i).getE());
+					}
 					return temp;
 				}
 				int originalAchievable = achievable;
@@ -94,10 +93,6 @@ public class AlphaBeta {
 				tempAchievable = -1*(int)temp.get(0);
 //				if better than we can hope, cutoff?
 				if (tempAchievable >= hope) {
-					bestDaughter = node.getReorderedDaughters().get(i);
-					tempPrincipalVar = (ArrayList<Node>)temp.get(1);
-					tempPrincipalVar.add(0,bestDaughter);
-					temp.set(1,tempPrincipalVar);
 					return temp;
 				}
 				int originalAchievable = achievable;
@@ -109,9 +104,6 @@ public class AlphaBeta {
 				}
 			}
 //			return best daughter
-			if (ht==5) {
-				System.out.println("BD: "+bestDaughter.getE());
-			}
 			tempPrincipalVar.add(0,bestDaughter);
 			temp.set(0,achievable);
 			temp.set(1,tempPrincipalVar);
