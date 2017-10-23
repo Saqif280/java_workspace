@@ -50,8 +50,52 @@ public class Node {
 		daughters.add(d);
 		reorderedDaughters.add(d);
 	}
-//	set reordered daughters list
-	public void reorderDaughters(ArrayList<Node> newOrder) {
+// 	set reordered daughters list
+	public void setReorderedDaughters(ArrayList<Node> newOrder) {
 		reorderedDaughters = newOrder;
+	}
+
+
+//  PRINT FUNCTIONS
+//	print tree
+	public void printTree(Node n) {
+		System.out.println(sV(n.e));
+		for(int i=0; i<n.getDaughters().size(); i++) {
+			System.out.print("    ");
+			n.printTree(n.getDaughters().get(i),1);
+		}
+	}
+	private void printTree(Node n, int l) {
+		System.out.println(sV(n.e));
+		for(int i=0; i<n.getDaughters().size(); i++) {
+			for(int j=0; j<=l; j++) {
+				System.out.print("    ");
+			}
+			n.printTree(n.getDaughters().get(i),l+1);
+		}
+	}
+//	print reordered tree
+	public void printReorderedTree(Node n) {
+		System.out.println(sV(n.e));
+		for(int i=0; i<n.getReorderedDaughters().size(); i++) {
+			System.out.print("    ");
+			n.printReorderedTree(n.getReorderedDaughters().get(i),1);
+		}
+	}
+	private void printReorderedTree(Node n, int l) {
+		System.out.println(sV(n.e));
+		for(int i=0; i<n.getReorderedDaughters().size(); i++) {
+			for(int j=0; j<=l; j++) {
+				System.out.print("    ");
+			}
+			n.printTree(n.getReorderedDaughters().get(i),l+1);
+		}
+	}
+//	spaced value helper
+	private String sV(int val) {
+		if (val >= 0) {
+			return " " + val;
+		}
+		return "" + val;
 	}
 }

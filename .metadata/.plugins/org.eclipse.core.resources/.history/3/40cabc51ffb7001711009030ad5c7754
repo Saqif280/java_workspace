@@ -1,0 +1,83 @@
+import java.util.ArrayList;
+
+public class Node {
+	
+//	INSTANCE VARIABLES
+//	static evaluation
+	private int e;
+//	list of daughters
+	private ArrayList<Node> daughters;
+//	list of reorderedDaughters
+	private ArrayList<Node> reorderedDaughters;
+	
+	
+//	PUBLIC CONSTRUCTORS
+//	create node
+	public Node() {
+		daughters = new ArrayList<Node>();
+		reorderedDaughters = new ArrayList<Node>();
+	}
+//	create node with static evaluation
+	public Node(int static_evaluation) {
+		e = static_evaluation;
+		daughters = new ArrayList<Node>();
+		reorderedDaughters = new ArrayList<Node>();
+	}
+	
+	
+//	ACCESSOR METHODS
+//	get static evaluation
+	public int getE() {
+		return e;
+	}
+//	get daughters
+	public ArrayList<Node> getDaughters() {
+		return daughters;
+	}
+//	get reordered daughters
+	public ArrayList<Node> getReorderedDaughters() {
+		return reorderedDaughters;
+	}
+	
+	
+//	MUTATOR METHODS
+//	set static evaluation
+	public void setE(int staticEvaluation) {
+		e = staticEvaluation;
+	}
+//	add daughter
+	public void addDaughter(Node d) {
+		daughters.add(d);
+		reorderedDaughters.add(d);
+	}
+// 	set reordered daughters list
+	public void setReorderedDaughters(ArrayList<Node> newOrder) {
+		reorderedDaughters = newOrder;
+	}
+
+
+//  PRINT
+//	print tree
+	public void printTree(Node n) {
+		System.out.println(sV(n.e));
+		for(int i=0; i<n.getDaughters().size(); i++) {
+			n.printTree(n.getDaughters().get(i),2);
+		}
+	}
+	private void printTree(Node n, int l) {
+		System.out.println(sV(n.e));
+		for(int i=0; i<n.getDaughters().size(); i++) {
+			for(int j=0; j<l; j++) {
+				System.out.print("   ");
+			}
+			n.printTree(n.getDaughters().get(i),l+1);
+		}
+	}
+//	spaced value helper
+	private String sV(int val) {
+		if (val >= 0) {
+			return " " + val;
+		}
+		return "" + val;
+	}
+}
