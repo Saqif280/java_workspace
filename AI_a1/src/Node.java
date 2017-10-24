@@ -88,7 +88,7 @@ public class Node {
 			for(int j=0; j<=l; j++) {
 				System.out.print("    ");
 			}
-			n.printTree(n.getReorderedDaughters().get(i),l+1);
+			n.printReorderedTree(n.getReorderedDaughters().get(i),l+1);
 		}
 	}
 //	spaced value helper

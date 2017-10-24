@@ -35,7 +35,6 @@ public class AlphaBeta {
 			ArrayList<Node> principalVar = new ArrayList<Node>();
 			retValues.add(node.getE());
 			retValues.add(principalVar);
-			retValues.add(node);
 			return retValues;
 		} else {
 			ArrayList<Object> temp = null;
@@ -47,7 +46,7 @@ public class AlphaBeta {
 			for (int i=0;i<node.getDaughters().size();i++) {
 				temp = abOnD1(node.getDaughters().get(i),ht-1,-hope,-achievable);
 				tempAchievable = -1*(int)temp.get(0);
-//				if better than we can hope, cutoff?
+//				if better than we can hope, cutoff
 				if (tempAchievable >= hope) {
 					temp.set(0,tempAchievable);
 					return temp;
@@ -72,7 +71,6 @@ public class AlphaBeta {
 			tempPrincipalVar.add(0,bestDaughter);
 			temp.set(0,achievable);
 			temp.set(1,tempPrincipalVar);
-			temp.set(2,bestDaughter);
 			return temp;
 		}
 	}
@@ -97,11 +95,8 @@ public class AlphaBeta {
 			for (int i=0;i<node.getReorderedDaughters().size();i++) {
 				temp = abOnD1(node.getReorderedDaughters().get(i),ht-1,-hope,-achievable);
 				tempAchievable = -1*(int)temp.get(0);
-//				if better than we can hope, cutoff?
+//				if better than we can hope, cutoff
 				if (tempAchievable >= hope) {
-					bestDaughter = node.getReorderedDaughters().get(i);
-					tempPrincipalVar = (ArrayList<Node>)temp.get(1);
-					tempPrincipalVar.add(0,bestDaughter);
 					temp.set(1,tempPrincipalVar);
 					return temp;
 				}

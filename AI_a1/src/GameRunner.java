@@ -46,7 +46,7 @@ public class GameRunner {
 		
 //		test for tree constructor
 		Node root = new Node();
-		new TreeConstructor(6,4,10,root);
+		new TreeConstructor(3,3,10,root);
 		System.out.println("DYNAMIC GAME TREE:");
 		//root.printTree(root);
 		
@@ -55,7 +55,7 @@ public class GameRunner {
 		ArrayList<Object> values = ab.ab(root,10,-10000,10000,false);
 		System.out.println("\nALPHA BETA:");
 		System.out.println("Returned Value: "+ values.get(0));
-		//System.out.println("Node Value: "+((Node) values.get(2)).getE());
+//		System.out.println("Node Value: "+((Node) values.get(2)).getE());
 //		test static evaluations count
 		System.out.println("Num SE: "+ab.getNumSE());
 //		test principal variation
@@ -65,9 +65,9 @@ public class GameRunner {
 		for(int i=0; i<principalVar.size(); i++) {
 			System.out.print(principalVar.get(i).getE() + ", ");
 		}
-		if(principalVar.get(principalVar.size()-1).getE() != ((Node) values.get(2)).getE()) {
-			//System.out.print("\n\nNode value does not match return!");	
-		}
+//		if(principalVar.get(principalVar.size()-1).getE() != ((Node) values.get(2)).getE()) {
+//			//System.out.print("\n\nNode value does not match return!");	
+//		}
 		
 //		test principal variation reordering
 		System.out.println("\n\nREORDERED GAME TREE:");
