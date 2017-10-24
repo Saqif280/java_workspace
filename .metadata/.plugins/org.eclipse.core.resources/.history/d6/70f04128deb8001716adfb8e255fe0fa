@@ -46,9 +46,9 @@ public class GameRunner {
 		
 //		test for tree constructor
 		Node root = new Node();
-		new TreeConstructor(3,3,10,root);
+		new TreeConstructor(4,3,10,root);
 		System.out.println("DYNAMIC GAME TREE:");
-		//root.printTree(root);
+		root.printTree(root);
 		
 //		test alphabeta
 		AlphaBeta ab = new AlphaBeta();

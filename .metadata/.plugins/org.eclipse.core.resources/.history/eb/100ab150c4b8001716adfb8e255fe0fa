@@ -35,7 +35,6 @@ public class AlphaBeta {
 			ArrayList<Node> principalVar = new ArrayList<Node>();
 			retValues.add(node.getE());
 			retValues.add(principalVar);
-			retValues.add(null);
 			return retValues;
 		} else {
 			ArrayList<Object> temp = null;
@@ -43,7 +42,6 @@ public class AlphaBeta {
 			ArrayList<Node> tempPrincipalVar = null;
 			Node bestDaughter = null;
 			ArrayList<Node> orderedDaughters = new ArrayList<Node>();
-			Node retNode = null;
 //			for each move
 			for (int i=0;i<node.getDaughters().size();i++) {
 				temp = abOnD1(node.getDaughters().get(i),ht-1,-hope,-achievable);
@@ -62,7 +60,7 @@ public class AlphaBeta {
 //					set best daughter
 					bestDaughter = node.getDaughters().get(i);
 					tempPrincipalVar = (ArrayList<Node>)temp.get(1);
-					retNode = (Node)temp.get(2);
+					temp.set(2, bestDaughter);
 				} else {
 //					add to ordered daughters
 					orderedDaughters.add(node.getDaughters().get(i));
@@ -74,10 +72,6 @@ public class AlphaBeta {
 			tempPrincipalVar.add(0,bestDaughter);
 			temp.set(0,achievable);
 			temp.set(1,tempPrincipalVar);
-			if(retNode==null) {
-				retNode = bestDaughter;
-			}
-			temp.set(2,retNode);
 			return temp;
 		}
 	}
@@ -92,14 +86,12 @@ public class AlphaBeta {
 			ArrayList<Node> principalVar = new ArrayList<Node>();
 			retValues.add(node.getE());
 			retValues.add(principalVar);
-			retValues.add(null);
 			return retValues;
 		} else {
 			ArrayList<Object> temp = null;
 			int tempAchievable;
 			ArrayList<Node> tempPrincipalVar = null;
 			Node bestDaughter = null;
-			Node retNode = null;
 //			for each move
 			for (int i=0;i<node.getReorderedDaughters().size();i++) {
 				temp = abOnD1(node.getReorderedDaughters().get(i),ht-1,-hope,-achievable);
@@ -115,18 +107,12 @@ public class AlphaBeta {
 				if(achievable > originalAchievable || i == 0) {
 					bestDaughter = node.getReorderedDaughters().get(i);
 					tempPrincipalVar = (ArrayList<Node>)temp.get(1);
-					retNode = (Node)temp.get(2);
 				}
 			}
 //			return best daughter
 			tempPrincipalVar.add(0,bestDaughter);
 			temp.set(0,achievable);
 			temp.set(1,tempPrincipalVar);
-			temp.set(1,tempPrincipalVar);
-			if(retNode==null) {
-				retNode = bestDaughter;
-			}
-			temp.set(2,retNode);
 			return temp;
 		}
 	}
