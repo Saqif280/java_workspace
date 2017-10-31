@@ -1,13 +1,16 @@
 import java.util.ArrayList;
 
 public class AlphaBeta {
-	
+
+//	INSTANCE VARIABLES
 	private int staticEvaluations;
 	
-	
+//	CONSTRUCTORS
 	public AlphaBeta() {
 		staticEvaluations = 0;
 	}
+	
+//	METHODS
 	
 /**	alpha beta algorithm
  * 

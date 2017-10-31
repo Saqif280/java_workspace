@@ -1,0 +1,36 @@
+
+public class PrincipalVariationSearch {
+	
+//	INSTANCE VARIABLES
+//	private int score;
+	
+//	CONSTRUCTORS
+	public PrincipalVariationSearch(){
+//		score = 0;
+	}
+	
+//	METHODS
+	
+	public int pvs(int a, int b, int d){
+//		if root a = -inf, b = inf
+//		if d=0 or no moves available
+		if (d==0) {
+//			return evaluation(a,b)
+		}
+		else {
+//			make move(1)
+			int score = -pvs(-b,-a,d-1);
+//			unmake move(1)
+			if (score < b) {
+//				for moves 2 - last move
+				int lb = Math.max(a,score);
+				int ub = lb+1;
+//				make move(m)
+				int temp = -pvs(-ub,-lb,d-1);
+				if(temp)
+//				unmake move(m)
+			}
+		}
+	}
+	
+}
