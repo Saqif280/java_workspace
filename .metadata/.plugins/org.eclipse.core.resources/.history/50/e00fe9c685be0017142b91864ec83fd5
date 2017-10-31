@@ -59,7 +59,6 @@ public class PrincipalVariationSearch {
 					}
 				}
 			}
-			node.setReorderedDaughters(orderedDaughters);
 			tempValues1.set(0, score);
 			return tempValues1;
 		}

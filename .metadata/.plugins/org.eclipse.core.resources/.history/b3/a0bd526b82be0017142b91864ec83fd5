@@ -46,20 +46,14 @@ public class GameRunner {
 		
 //		test for tree constructor
 		Node root = new Node();
-		int height = 6;
-		int branchingFactor = 6;
-		int approx = 10;
-		new TreeConstructor(height,branchingFactor,approx,root);
+		new TreeConstructor(6,6,10,root);
 		System.out.println("DYNAMIC GAME TREE:");
-		System.out.println("Height: "+height);
-		System.out.println("Branching Factor: "+branchingFactor);
-		System.out.println("Approx: "+approx);
 		//root.printTree(root);
 		
 //		test alphabeta
 		AlphaBeta ab = new AlphaBeta();
 		ArrayList<Object> values = ab.ab(root,10,-10000,10000,false);
-		System.out.println("\n\nALPHA BETA:");
+		System.out.println("\nALPHA BETA:");
 		System.out.println("Returned Value: "+ values.get(0));
 //		System.out.println("Node Value: "+((Node) values.get(2)).getE());
 //		test static evaluations count
@@ -77,6 +71,7 @@ public class GameRunner {
 		ArrayList<Object> values2 = ab2.ab(root,10,-10000,10000,true);
 		System.out.println("\n\nALPHA BETA ON REORDERED:");
 		System.out.println("Returned Value: "+ values2.get(0));
+//		test static evaluations count
 		System.out.println("Num SE: "+ab2.getNumSE());
 		
 //		test principal variation reordering
@@ -91,6 +86,7 @@ public class GameRunner {
 		ArrayList<Object> valuesPVS = pvs.pvs(root,-10000,10000,10,false);
 		System.out.println("\n\nPVS:");
 		System.out.println("Returned Value: "+ valuesPVS.get(0));
+//		test static evaluations count
 		System.out.println("Num SE: "+pvs.getNumSE());
 		
 //		test pvs on d2
@@ -98,6 +94,9 @@ public class GameRunner {
 		ArrayList<Object> valuesPVS2 = pvs2.pvs(root,-10000,10000,10,true);
 		System.out.println("\n\nPVS ON REORDERED:");
 		System.out.println("Returned Value: "+ valuesPVS2.get(0));
+//		test static evaluations count
 		System.out.println("Num SE: "+pvs2.getNumSE());
+
+		
 	}
 }

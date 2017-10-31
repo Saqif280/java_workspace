@@ -46,7 +46,7 @@ public class GameRunner {
 		
 //		test for tree constructor
 		Node root = new Node();
-		int height = 6;
+		int height = 5;
 		int branchingFactor = 6;
 		int approx = 10;
 		new TreeConstructor(height,branchingFactor,approx,root);
@@ -99,5 +99,7 @@ public class GameRunner {
 		System.out.println("\n\nPVS ON REORDERED:");
 		System.out.println("Returned Value: "+ valuesPVS2.get(0));
 		System.out.println("Num SE: "+pvs2.getNumSE());
+
+		
 	}
 }
