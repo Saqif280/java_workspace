@@ -17,10 +17,10 @@ public class PrincipalVariationSearch {
 		if (d==0 || node.getDaughters().isEmpty()) {
 			staticEvaluations++;
 			ArrayList<Object> retValues = new ArrayList<Object>();
-			ArrayList<Node> principalVar = new ArrayList<Node>();
+			//ArrayList<Node> principalVar = new ArrayList<Node>();
 //			System.out.print
 			retValues.add(node.getE());
-			retValues.add(principalVar);
+			//retValues.add(principalVar);
 			//retValues.add(null);
 			return retValues;
 		} else {

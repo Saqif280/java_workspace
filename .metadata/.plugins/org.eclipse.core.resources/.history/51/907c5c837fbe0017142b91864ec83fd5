@@ -55,10 +55,10 @@ public class Node {
 		reorderedDaughters = newOrder;
 	}
 //	reset all reordered daughters
-	public void resetReorderedDaughters() {
+	public void resetReorderedDaughter() {
 		this.reorderedDaughters = this.daughters;
 		for(int i=0;i<this.daughters.size();i++) {
-			this.daughters.get(i).resetReorderedDaughters();
+			this.daughters.get(i).resetReorderedDaughter();
 		}
 	}
 

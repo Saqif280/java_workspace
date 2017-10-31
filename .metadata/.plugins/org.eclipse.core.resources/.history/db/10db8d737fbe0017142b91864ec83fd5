@@ -46,7 +46,7 @@ public class GameRunner {
 		
 //		test for tree constructor
 		Node root = new Node();
-		new TreeConstructor(3,3,10,root);
+		new TreeConstructor(6,3,10,root);
 		System.out.println("DYNAMIC GAME TREE:");
 		//root.printTree(root);
 		
@@ -69,7 +69,7 @@ public class GameRunner {
 //		test principal variation reordering
 		System.out.println("\n\nREORDERED GAME TREE:");
 		root.printReorderedTree();
-		root.resetReorderedDaughters();
+		root.resetReorderedDaughter();
 		
 //		test pvs
 		PrincipalVariationSearch pvs = new PrincipalVariationSearch();

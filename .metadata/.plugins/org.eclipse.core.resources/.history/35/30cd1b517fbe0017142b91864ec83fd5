@@ -55,51 +55,47 @@ public class Node {
 		reorderedDaughters = newOrder;
 	}
 //	reset all reordered daughters
-	public void resetReorderedDaughters() {
+	public void resetReorderedDaughter() {
 		this.reorderedDaughters = this.daughters;
 		for(int i=0;i<this.daughters.size();i++) {
-			this.daughters.get(i).resetReorderedDaughters();
+			this.daughters.get(i).resetReorderedDaughter();
 		}
 	}
 
 
 //  PRINT FUNCTIONS
 //	print tree
-	public void printTree() {
-		Node n = this;
+	public void printTree(Node n) {
 		System.out.println(sV(n.e));
 		for(int i=0; i<n.getDaughters().size(); i++) {
 			System.out.print("    ");
-			n.getDaughters().get(i).printTree(1);
+			n.printTree(n.getDaughters().get(i),1);
 		}
 	}
-	private void printTree(int l) {
-		Node n = this;
+	private void printTree(Node n, int l) {
 		System.out.println(sV(n.e));
 		for(int i=0; i<n.getDaughters().size(); i++) {
 			for(int j=0; j<=l; j++) {
 				System.out.print("    ");
 			}
-			n.getDaughters().get(i).printTree(l+1);
+			n.printTree(n.getDaughters().get(i),l+1);
 		}
 	}
 //	print reordered tree
-	public void printReorderedTree() {
-		Node n = this;
+	public void printReorderedTree(Node n) {
 		System.out.println(sV(n.e));
 		for(int i=0; i<n.getReorderedDaughters().size(); i++) {
 			System.out.print("    ");
-			n.getReorderedDaughters().get(i).printReorderedTree(1);
+			n.printReorderedTree(n.getReorderedDaughters().get(i),1);
 		}
 	}
-	private void printReorderedTree(int l) {
-		Node n = this;
+	private void printReorderedTree(Node n, int l) {
 		System.out.println(sV(n.e));
 		for(int i=0; i<n.getReorderedDaughters().size(); i++) {
 			for(int j=0; j<=l; j++) {
 				System.out.print("    ");
 			}
-			n.getReorderedDaughters().get(i).printReorderedTree(l+1);
+			n.printReorderedTree(n.getReorderedDaughters().get(i),l+1);
 		}
 	}
 //	spaced value helper

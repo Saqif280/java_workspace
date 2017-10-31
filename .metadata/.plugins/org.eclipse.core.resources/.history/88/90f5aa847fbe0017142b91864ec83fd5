@@ -68,8 +68,9 @@ public class GameRunner {
 		
 //		test principal variation reordering
 		System.out.println("\n\nREORDERED GAME TREE:");
+		root.printTree();
+		root.resetReorderedDaughter();
 		root.printReorderedTree();
-		root.resetReorderedDaughters();
 		
 //		test pvs
 		PrincipalVariationSearch pvs = new PrincipalVariationSearch();

@@ -58,7 +58,7 @@ public class Node {
 	public void resetReorderedDaughters() {
 		this.reorderedDaughters = this.daughters;
 		for(int i=0;i<this.daughters.size();i++) {
-			this.daughters.get(i).resetReorderedDaughters();
+			this.daughters.get(i).resetReorderedDaughter();
 		}
 	}
 
