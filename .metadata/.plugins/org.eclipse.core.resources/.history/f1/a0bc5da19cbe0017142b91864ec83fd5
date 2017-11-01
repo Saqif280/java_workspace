@@ -1,4 +1,4 @@
-// import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class GameRunner {
 	
@@ -46,15 +46,15 @@ public class GameRunner {
 		
 ////		test for tree constructor
 //		Node root = new Node();
-//		int height = 3;
-//		int branchingFactor = 3;
+//		int height = 6;
+//		int branchingFactor = 6;
 //		int approx = 10;
 //		new TreeConstructor(height,branchingFactor,approx,root);
 //		System.out.println("DYNAMIC GAME TREE:");
 //		System.out.println("Height: "+height);
 //		System.out.println("Branching Factor: "+branchingFactor);
 //		System.out.println("Approx: "+approx);
-//		root.printTree();
+//		//root.printTree(root);
 //		
 ////		test alphabeta
 //		AlphaBeta ab = new AlphaBeta();
@@ -104,11 +104,6 @@ public class GameRunner {
 //		Experiment
 //		heights
 		System.out.println("EXPERIMENT:");
-		int numABBeatsPVS = 0;
-		int numPVSBeatsAB = 0;
-		int numABBeatsPVSpv = 0;
-		int numPVSBeatsABpv = 0;
-		
 		for(int h=4;h<=6;h++) {
 //			branching factor
 			for(int b=3;b<=21;b+=3) {
@@ -141,18 +136,7 @@ public class GameRunner {
 //						run pvs on pv
 						PrincipalVariationSearch pvsPV = new PrincipalVariationSearch();
 						pvsPV.pvs(root,-10000,10000,10,true);
-						meanPVS2SE += pvsPV.getNumSE();
-//						add up statistics
-						if(ab.getNumSE() < pvs.getNumSE()) {
-							numABBeatsPVS++;
-						} else {
-							numPVSBeatsAB++;
-						}
-						if(abPV.getNumSE() < pvsPV.getNumSE()) {
-							numABBeatsPVSpv++;
-						} else {
-							numPVSBeatsABpv++;
-						}
+						meanPVS2SE += pvsPV.getNumSE();	
 					}
 
 					meanAB1SE /= 25;
@@ -172,12 +156,5 @@ public class GameRunner {
 				}
 			}
 		}
-		System.out.println("\nOverall:");
-		System.out.println("Num times AB beats PVS: "+numABBeatsPVS);
-		System.out.println("Num times PVS beats AB: "+numPVSBeatsAB);
-		System.out.println("Num times AB beats PVS with PV: "+numABBeatsPVSpv);
-		System.out.println("Num times PVS beats AB with PV: "+numPVSBeatsABpv);
-		
-		
 	}
 }
