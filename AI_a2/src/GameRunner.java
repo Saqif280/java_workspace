@@ -13,7 +13,7 @@ public class GameRunner {
         
         // board arguments
         int numColumns = 0;
-        int[][] columns;
+        int[] columns;
         int[] dcCell1 = new int[2];
         int[] dcCell2 = new int[2];
         
@@ -34,11 +34,12 @@ public class GameRunner {
                 sc.next();
             }
         }
-        columns = new int[numColumns][];
+        columns = new int[numColumns];
         
         // ask for column lengths
         for(int i=0;i<numColumns;i++) {
-            while(columns[i] == null) {
+            columns[i] = -1;
+            while(columns[i] == -1) {
                 System.out.println("How long is column "+(i+1)+"?");
                 // if input is integer
                 if(sc.hasNextInt()) {
@@ -46,7 +47,7 @@ public class GameRunner {
                     int length = sc.nextInt();
                     // if within bounds, set columns value
                     if(length > 0) {
-                        columns[i] = new int[length];
+                        columns[i] = length;
                     }
                 } else {
                     sc.next();
@@ -74,13 +75,13 @@ public class GameRunner {
             }
         }
         while(tempRow==-1) {
-            System.out.println("Column number? (1-"+columns[tempCol].length+")");
+            System.out.println("Column number? (1-"+columns[tempCol]+")");
             // if input is integer
             if(sc.hasNextInt()) {
                 // get integer
                 tempRow = sc.nextInt()-1;
                 // if not within bounds, reset columns value
-                if(tempRow < 0 || tempRow >= columns[tempCol].length) {
+                if(tempRow < 0 || tempRow >= columns[tempCol]) {
                     tempRow = -1;
                 }
             } else {
@@ -107,13 +108,13 @@ public class GameRunner {
             }
         }
         while(tempRow==-1) {
-            System.out.println("Column number? (1-"+columns[tempCol].length+")");
+            System.out.println("Column number? (1-"+columns[tempCol]+")");
             // if input is integer
             if(sc.hasNextInt()) {
                 // get integer
                 tempRow = sc.nextInt()-1;
                 // if not within bounds, reset columns value
-                if(tempRow < 0 || tempRow >= columns[tempCol].length) {
+                if(tempRow < 0 || tempRow >= columns[tempCol]) {
                     tempRow = -1;
                 }
             } else {
@@ -125,6 +126,9 @@ public class GameRunner {
         
         // finished collecting values
         System.out.println("\nThank you! Now generating game board ...");
+        GameBoard game = new GameBoard(columns, dcCell1, dcCell2);
+        game.printBoard();
+        game.checkGameCompletion();
         
     }
 }
