@@ -22,6 +22,7 @@ public class GameBoard {
     private int[] dcCell1;
     private int[] dcCell2;
     private Character currPlayer = PLAYER1;
+    private Scanner sc = new Scanner(System.in);
     
     // make gameboard from prompts
     public GameBoard() {
@@ -33,8 +34,6 @@ public class GameBoard {
         int[] c;
         int[] dc1 = new int[2];
         int[] dc2 = new int[2];
-        
-        Scanner sc = new Scanner(System.in);
         
         // ask for num columns
         while(numColumns == 0) {
@@ -229,11 +228,52 @@ public class GameBoard {
                     sc.next();
                 }
             }
-        }  
-        System.out.println("\nThank you! Now we will begin the game ...");
+        }
         
-        // if human participant
-        if(players==1) {
+        System.out.println("\nThank you! Now we will begin the game ...");
+        RunGame(players,comp1diff,comp2diff);
+        System.out.println("Done.");
+    }
+    
+    // make gameboard with specs
+    public GameBoard(int[] c, int[] dc1, int[] dc2, int p, int c1diff, int c2diff) {
+        dcCell1 = dc1;
+        dcCell2 = dc2;
+        
+        // initialize gameboard size
+        int cols = c.length;
+        int rows = 0;
+        for(int i=0;i<cols;i++) {
+            rows = Math.max(rows, c[i]);
+        }
+        columns = new Character[cols][rows];
+        
+        // populate gameboard
+        for(int col=0;col<columns.length;col++) {
+            for(int row=0;row<columns[col].length;row++) {
+                if (col==dcCell1[0] && row==dcCell1[1]
+                        || col==dcCell2[0] && row==dcCell2[1]) {
+                    // dont count cells
+                    columns[col][row] = DC;
+                } else if(row < c[col]) {
+                    // empty cells
+                    columns[col][row] = EMPTY;
+                } else {
+                    // unplayable cells
+                    columns[col][row] = UNPLAYABLE;
+                }
+                
+            }
+        }
+        
+        // run game
+        RunGame(p, c1diff, c2diff);
+    }
+    
+    // run game
+    private void RunGame(int p, int c1diff, int c2diff) {
+     // if human participant
+        if(p==1) {
             // ask to make move until game ends
             while(!(boolean)checkGameCompletion().get(0)) {
                 System.out.println();
@@ -262,46 +302,10 @@ public class GameBoard {
                 printBoard();
                 System.out.println((String)checkGameCompletion().get(1));
             }
+            sc.close();
         } else {
             // play comp game
             System.out.println("Not implemented yet.");
-        }
-            
-        
-        // close scanner
-        sc.close();
-        System.out.println("Done.");
-    }
-    
-    // make gameboard with specs
-    public GameBoard(int[] c, int[] dc1, int[] dc2) {
-        dcCell1 = dc1;
-        dcCell2 = dc2;
-        
-        // initialize gameboard size
-        int cols = c.length;
-        int rows = 0;
-        for(int i=0;i<cols;i++) {
-            rows = Math.max(rows, c[i]);
-        }
-        columns = new Character[cols][rows];
-        
-        // populate gameboard
-        for(int col=0;col<columns.length;col++) {
-            for(int row=0;row<columns[col].length;row++) {
-                if (col==dcCell1[0] && row==dcCell1[1]
-                        || col==dcCell2[0] && row==dcCell2[1]) {
-                    // dont count cells
-                    columns[col][row] = DC;
-                } else if(row < c[col]) {
-                    // empty cells
-                    columns[col][row] = EMPTY;
-                } else {
-                    // unplayable cells
-                    columns[col][row] = UNPLAYABLE;
-                }
-                
-            }
         }
     }
     

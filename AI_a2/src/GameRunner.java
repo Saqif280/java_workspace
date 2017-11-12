@@ -6,8 +6,7 @@
 // this class runs the game
 public class GameRunner {
     public static void main(String[] args) {
-        
-        // collect values for who is playing
+        // run game
         new GameBoard();
     }
 }
