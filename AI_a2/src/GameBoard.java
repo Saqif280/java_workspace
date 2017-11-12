@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Name: Saqif Badruddin
  * Student ID: 17200777
@@ -18,6 +20,7 @@ public class GameBoard {
     private Character[][] columns;
     private int[] dcCell1;
     private int[] dcCell2;
+    private Character currPlayer = PLAYER1;
     
     // constructor
     public GameBoard(int[] c, int[] dc1, int[] dc2) {
@@ -51,6 +54,30 @@ public class GameBoard {
         }
     }
     
+    // make a move on the board
+    public boolean makeMove(int c) {
+        c--;
+        // if out of bounds
+        if(c >= columns.length) {
+            return false;
+        }
+        // if there is a playable spot
+        for(int r=0;r<columns[c].length;r++) {
+            if(columns[c][r]==EMPTY) {
+                // place piece here
+                columns[c][r]=currPlayer;
+                currPlayer = (currPlayer==PLAYER1)?PLAYER2:PLAYER1;
+                return true;
+            } else if (columns[c][r]==DC) {
+                // place dont count piece here
+                columns[c][r]=(currPlayer==PLAYER1)?PLAYER1_DC:PLAYER2_DC;
+                currPlayer = (currPlayer==PLAYER1)?PLAYER2:PLAYER1;
+                return true;
+            }
+        }
+        return false;
+    }
+    
     // print board
     public void printBoard() {
         System.out.println("\nGame Board:");
@@ -68,7 +95,8 @@ public class GameBoard {
         System.out.print("\n");
     }
     
-    public boolean checkGameCompletion() {
+    public ArrayList<Object> checkGameCompletion() {
+        ArrayList<Object> retArray = new ArrayList<Object>();;
         int emptyPositionsCount = 0;
         // if four in a row, return true
         // for each position
@@ -92,8 +120,9 @@ public class GameBoard {
                         tempR++;
                     }
                     if(numConsecutive >= 4) {
-                        System.out.print(winPrint);
-                        return true;
+                        retArray.add(true);
+                        retArray.add(winPrint);
+                        return retArray;
                     }
                     tempR = r;
                     // move down
@@ -104,8 +133,9 @@ public class GameBoard {
                         tempR--;
                     }
                     if(numConsecutive >= 4) {
-                        System.out.print(winPrint);
-                        return true;
+                        retArray.add(true);
+                        retArray.add(winPrint);
+                        return retArray;
                     }
                     tempR = r;
                     
@@ -119,8 +149,9 @@ public class GameBoard {
                         tempC++;
                     }
                     if(numConsecutive >= 4) {
-                        System.out.print(winPrint);
-                        return true;
+                        retArray.add(true);
+                        retArray.add(winPrint);
+                        return retArray;
                     }
                     tempC = c;
                     // move down
@@ -131,8 +162,9 @@ public class GameBoard {
                         tempC--;
                     }
                     if(numConsecutive >= 4) {
-                        System.out.print(winPrint);
-                        return true;
+                        retArray.add(true);
+                        retArray.add(winPrint);
+                        return retArray;
                     }
                     tempC = c;
                     
@@ -148,8 +180,9 @@ public class GameBoard {
                         tempR++;
                     }
                     if(numConsecutive >= 4) {
-                        System.out.print(winPrint);
-                        return true;
+                        retArray.add(true);
+                        retArray.add(winPrint);
+                        return retArray;
                     }
                     tempC = c;
                     tempR = r;
@@ -163,8 +196,9 @@ public class GameBoard {
                         tempR--;
                     }
                     if(numConsecutive >= 4) {
-                        System.out.print(winPrint);
-                        return true;
+                        retArray.add(true);
+                        retArray.add(winPrint);
+                        return retArray;
                     }
                     tempC = c;
                     tempR = r;
@@ -181,8 +215,9 @@ public class GameBoard {
                         tempR++;
                     }
                     if(numConsecutive >= 4) {
-                        System.out.print(winPrint);
-                        return true;
+                        retArray.add(true);
+                        retArray.add(winPrint);
+                        return retArray;
                     }
                     tempC = c;
                     tempR = r;
@@ -196,8 +231,9 @@ public class GameBoard {
                         tempR--;
                     }
                     if(numConsecutive >= 4) {
-                        System.out.print(winPrint);
-                        return true;
+                        retArray.add(true);
+                        retArray.add(winPrint);
+                        return retArray;
                     }
                     tempC = c;
                     tempR = r;
@@ -211,12 +247,16 @@ public class GameBoard {
         
         // if full board, return true
         if(emptyPositionsCount == 0) {
-            System.out.println("It's a tie!");
-            return true;
+            retArray.add(true);
+            retArray.add("It's a tie!");
+            return retArray;
         }
         
         // else, return false
-        System.out.println("No one has won yet.");
-        return false;
+        retArray.add(false);
+        retArray.add("No one has won yet.");
+        return retArray;
     }
+    
+    
 }

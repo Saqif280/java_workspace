@@ -124,11 +124,11 @@ public class GameRunner {
         dcCell2 = new int[] {tempCol, tempRow};
         sc.close();
         
-        // finished collecting values
+        // finished collecting values for game board
         System.out.println("\nThank you! Now generating game board ...");
         GameBoard game = new GameBoard(columns, dcCell1, dcCell2);
         game.printBoard();
-        game.checkGameCompletion();
         
+        // collect values for who is playing
     }
 }
