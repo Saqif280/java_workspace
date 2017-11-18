@@ -339,10 +339,16 @@ public class GameBoard {
                     bestRatio = tempRatio;
                     bestRatioCol = i;
                 }
-                System.out.println(i+":"+tempRatio);
+                //System.out.println(i+":"+tempRatio+" = "+ratios[i][0]+"/"+ratios[i][1]);
             }
         }
-        System.out.println(bestRatioCol);
+        
+        
+//        for(int i=0;i<ratios.length;i++) {
+//            System.out.println(i+": "+ratios[i][0]+"-"+ratios[i][1]+"-"+ratios[i][2]);
+//        }
+        
+        System.out.println("Best Column"+bestRatioCol);
         return bestRatioCol;
     }
     
@@ -373,6 +379,7 @@ public class GameBoard {
                         // if first move
                         if(col==-1) {
                             col = i;
+                            firstMove=false;
                         }
                         // end loop
                         //System.out.println("win");
@@ -395,6 +402,7 @@ public class GameBoard {
                 while(!makeMove(col)) {
                     col = (int)(Math.random() * columns.length);
                 }
+                firstMove=false;
             }
             // if game isnt over
             if((int)checkGameCompletion().get(0)==-1) {
@@ -407,7 +415,7 @@ public class GameBoard {
                             pathResult = -1*(int)checkGameCompletion().get(0);
                             tempCol = i;
                             // end loop
-                            //System.out.println("loss");
+                            // System.out.println("loss");
                             break;
                         }
                         // undo move
