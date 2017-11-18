@@ -332,7 +332,7 @@ public class GameBoard {
             if(ratios[i][1]==0 && ratios[i][0]+ratios[i][2]!=0) {
                 bestRatioCol = i;
                 break;
-            } else {
+            } else if (ratios[i][0]+ratios[i][1]+ratios[i][2]!=0){
                 double tempRatio = ratios[i][0];
                 if(ratios[i][1]!=0) tempRatio /= ratios[i][1];
                 if(tempRatio>bestRatio || bestRatioCol == -1) {
@@ -342,7 +342,6 @@ public class GameBoard {
                 //System.out.println(i+":"+tempRatio+" = "+ratios[i][0]+"/"+ratios[i][1]);
             }
         }
-        
         
 //        for(int i=0;i<ratios.length;i++) {
 //            System.out.println(i+": "+ratios[i][0]+"-"+ratios[i][1]+"-"+ratios[i][2]);
