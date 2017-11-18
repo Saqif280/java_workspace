@@ -313,7 +313,7 @@ public class GameBoard {
         int[][] ratios = new int[columns.length][3];
         // run monte carlo search runs amount of times
         for(int i=0;i<runs;i++) {
-            System.out.println(i);
+            //System.out.println(i);
             int[] runVals = monteCarloSearch();
             // win
             if(runVals[1]==1) {
@@ -323,13 +323,12 @@ public class GameBoard {
             } else {
                 ratios[runVals[0]][2] += 1;
             }
-            System.out.println(i);
         }
         // find best ratio
         double bestRatio = 0;
         int bestRatioCol = -1;
         for(int i=0;i<ratios.length;i++) {
-            if(ratios[i][1]!=0) {
+            if(ratios[i][1]==0) {
                 bestRatioCol = i;
                 i = ratios.length;
             } else {
@@ -363,48 +362,54 @@ public class GameBoard {
             int tempCol = -1;
             // check if there is a winning move
             for(int i = 0; i < columns.length; i++) {
-                makeMove(i);
-                // if winning move
-                if((int)checkGameCompletion().get(0)!=-1) {
-                    pathResult = (int)checkGameCompletion().get(0);
-                    tempCol = i;
-                    // if first move
-                    if(col==-1) {
-                        col = i;
+                if(makeMove(i)) {
+                    // if winning move
+                    if((int)checkGameCompletion().get(0)!=-1) {
+                        pathResult = (int)checkGameCompletion().get(0);
+                        tempCol = i;
+                        // if first move
+                        if(col==-1) {
+                            col = i;
+                        }
+                        // end loop
+                        //System.out.println("win");
+                        break;
                     }
-                    // end loop
-                    i = columns.length;
+                    // undo move
+                    undoMove(i);
                 }
-                System.out.print("He");
-                undoMove(i);
-                System.out.print("llo");
             }
-            // if winning move was found, etc
-            if(tempCol != -1 && !firstMove) {
-                // move to winning position
-                makeMove(tempCol);
-            } else if (tempCol != -1 && firstMove) {
-                // move to winning position
-                makeMove(col);
-            } else if (tempCol == -1 && !firstMove) {
+            // if no  winning move was found
+            if (tempCol == -1 && !firstMove) {
                 // make random move
                 tempCol = (int)(Math.random() * columns.length);
-                makeMove(tempCol);
-            } else {
+                while(!makeMove(tempCol)) {
+                    tempCol = (int)(Math.random() * columns.length);
+                }
+            } else if (tempCol == -1 && firstMove){
                 // make random move
                 col = (int)(Math.random() * columns.length);
-                makeMove(col); 
+                while(!makeMove(col)) {
+                    col = (int)(Math.random() * columns.length);
+                }
             }
             // opponent makes random move
             if((int)checkGameCompletion().get(0)==-1) {
                 tempCol = (int)(Math.random() * columns.length);
-                makeMove(tempCol);
+                while(!makeMove(tempCol)) {
+                    tempCol = (int)(Math.random() * columns.length);
+                }
                 if((int)checkGameCompletion().get(0)!=-1) {
                     pathResult = -1*(int)checkGameCompletion().get(0);
+                    //System.out.println("loss");
                 }
             }
         }
-        if(pathResult==-2) pathResult=0;
+        //System.out.println("done");
+        if(pathResult==-2) {
+            pathResult=0;
+            //System.out.println("tie");
+        }
         // copy back current player
         currPlayer = initialPlayer;
         // copy back the board
