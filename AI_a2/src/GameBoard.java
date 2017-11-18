@@ -231,7 +231,7 @@ public class GameBoard {
         }
         
         System.out.println("\nThank you! Now we will begin the game ...");
-        RunGame(players,comp1diff,comp2diff);
+        runGame(players,comp1diff,comp2diff);
         System.out.println("Done.");
     }
     
@@ -268,7 +268,7 @@ public class GameBoard {
     }
     
     // run game
-    private void RunGame(int p, int c1diff, int c2diff) {
+    public void runGame(int p, int c1diff, int c2diff) {
      // if human participant
         if(p==1) {
             // ask to make move until game ends
@@ -316,30 +316,33 @@ public class GameBoard {
             //System.out.println(i);
             int[] runVals = monteCarloSearch();
             // win
+            int col = runVals[0];
             if(runVals[1]==1) {
-                ratios[runVals[0]][0] += 1;
+                ratios[col][0] += 1;
             } else if (runVals[1]==-1) {
-                ratios[runVals[0]][1] += 1;
+                ratios[col][1] += 1;
             } else {
-                ratios[runVals[0]][2] += 1;
+                ratios[col][2] += 1;
             }
         }
         // find best ratio
         double bestRatio = 0;
         int bestRatioCol = -1;
         for(int i=0;i<ratios.length;i++) {
-            if(ratios[i][1]==0) {
+            if(ratios[i][1]==0 && ratios[i][0]+ratios[i][2]!=0) {
                 bestRatioCol = i;
-                i = ratios.length;
+                break;
             } else {
                 double tempRatio = ratios[i][0];
-                tempRatio /= ratios[i][1];
+                if(ratios[i][1]!=0) tempRatio /= ratios[i][1];
                 if(tempRatio>bestRatio || bestRatioCol == -1) {
                     bestRatio = tempRatio;
                     bestRatioCol = i;
                 }
+                System.out.println(i+":"+tempRatio);
             }
         }
+        System.out.println(bestRatioCol);
         return bestRatioCol;
     }
     
@@ -393,15 +396,29 @@ public class GameBoard {
                     col = (int)(Math.random() * columns.length);
                 }
             }
-            // opponent makes random move
+            // if game isnt over
             if((int)checkGameCompletion().get(0)==-1) {
-                tempCol = (int)(Math.random() * columns.length);
-                while(!makeMove(tempCol)) {
-                    tempCol = (int)(Math.random() * columns.length);
+                // check if there is a winning move
+                tempCol = -1;
+                for(int i = 0; i < columns.length; i++) {
+                    if(makeMove(i)) {
+                        // if winning move
+                        if((int)checkGameCompletion().get(0)!=-1) {
+                            pathResult = -1*(int)checkGameCompletion().get(0);
+                            tempCol = i;
+                            // end loop
+                            //System.out.println("loss");
+                            break;
+                        }
+                        // undo move
+                        undoMove(i);
+                    }
                 }
-                if((int)checkGameCompletion().get(0)!=-1) {
-                    pathResult = -1*(int)checkGameCompletion().get(0);
-                    //System.out.println("loss");
+                if(tempCol==-1) {
+                    tempCol = (int)(Math.random() * columns.length);
+                    while(!makeMove(tempCol)) {
+                        tempCol = (int)(Math.random() * columns.length);
+                    }
                 }
             }
         }
