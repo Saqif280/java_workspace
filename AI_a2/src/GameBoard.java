@@ -24,7 +24,7 @@ public class GameBoard {
     private Character currPlayer = PLAYER1;
     private Scanner sc = new Scanner(System.in);
     
-    // make gameboard from prompts
+    // make gameboard from prompts and rungame
     public GameBoard() {
         // welcome message  
         System.out.println("Welcome to Much-modified Connect Four!\n");
@@ -206,10 +206,10 @@ public class GameBoard {
         int comp1diff = -1;
         int comp2diff = -1;
         while(comp1diff==-1) {
-            System.out.println("What is one computer player's difficulty? (1-2500)");
+            System.out.println("What is one computer player's difficulty? (1-25000)");
             if(sc.hasNextInt()) {
                 comp1diff = sc.nextInt();
-                if(comp1diff < 1 || comp1diff > 2500) {
+                if(comp1diff < 1 || comp1diff > 25000) {
                     comp1diff = -1;
                 }
             } else {
@@ -218,10 +218,10 @@ public class GameBoard {
         }
         if(players==0) {
             while(comp2diff==-1) {
-                System.out.println("What is two computer player's difficulty? (1-2500)");
+                System.out.println("What is other computer player's difficulty? (1-25000)");
                 if(sc.hasNextInt()) {
                     comp2diff = sc.nextInt();
-                    if(comp2diff < 1 || comp2diff > 2500) {
+                    if(comp2diff < 1 || comp2diff > 25000) {
                         comp2diff = -1;
                     }
                 } else {
@@ -236,7 +236,7 @@ public class GameBoard {
     }
     
     // make gameboard with specs
-    public GameBoard(int[] c, int[] dc1, int[] dc2, int p, int c1diff, int c2diff) {
+    public GameBoard(int[] c, int[] dc1, int[] dc2) {
         dcCell1 = dc1;
         dcCell2 = dc2;
         
@@ -265,9 +265,6 @@ public class GameBoard {
                 
             }
         }
-        
-        // run game
-        RunGame(p, c1diff, c2diff);
     }
     
     // run game
@@ -275,7 +272,7 @@ public class GameBoard {
      // if human participant
         if(p==1) {
             // ask to make move until game ends
-            while(!(boolean)checkGameCompletion().get(0)) {
+            while((int)checkGameCompletion().get(0)==-1) {
                 System.out.println();
                 // if humans turn
                 if(currPlayer==PLAYER1) {
@@ -285,7 +282,7 @@ public class GameBoard {
                         System.out.println("Your move. What column? "
                                 + "(1-"+columns.length+")");
                         if(sc.hasNextInt()) {
-                            col = sc.nextInt();
+                            col = sc.nextInt()-1;
                             if(!makeMove(col)) {
                                 col = -1;
                             }
@@ -293,9 +290,10 @@ public class GameBoard {
                             sc.next();
                         }
                     }
-                } else {
+                } else if ((int)checkGameCompletion().get(0)==-1) {
                     // make comp move
-                    int col = 1+(int)(Math.random() * columns.length);
+                    //int col = (int)(Math.random() * columns.length);
+                    int col = monteCarloSearch(c1diff);
                     makeMove(col);
                     System.out.println("Computer move");
                 }
@@ -309,9 +307,119 @@ public class GameBoard {
         }
     }
     
+    // monte carlo search
+    private int monteCarloSearch(int runs) {
+        // num wins, num lossed, num ties for each column
+        int[][] ratios = new int[columns.length][3];
+        // run monte carlo search runs amount of times
+        for(int i=0;i<runs;i++) {
+            System.out.println(i);
+            int[] runVals = monteCarloSearch();
+            // win
+            if(runVals[1]==1) {
+                ratios[runVals[0]][0] += 1;
+            } else if (runVals[1]==-1) {
+                ratios[runVals[0]][1] += 1;
+            } else {
+                ratios[runVals[0]][2] += 1;
+            }
+            System.out.println(i);
+        }
+        // find best ratio
+        double bestRatio = 0;
+        int bestRatioCol = -1;
+        for(int i=0;i<ratios.length;i++) {
+            if(ratios[i][1]!=0) {
+                bestRatioCol = i;
+                i = ratios.length;
+            } else {
+                double tempRatio = ratios[i][0];
+                tempRatio /= ratios[i][1];
+                if(tempRatio>bestRatio || bestRatioCol == -1) {
+                    bestRatio = tempRatio;
+                    bestRatioCol = i;
+                }
+            }
+        }
+        return bestRatioCol;
+    }
+    
+    // monte carlo iterative
+    private int[] monteCarloSearch() {
+        // array with col, path result
+        int[] retValues = new int[2];
+        // copy current player
+        Character initialPlayer = currPlayer;
+        // copy board
+        Character [][] initialBoard = new Character[columns.length][];
+        for(int i = 0; i < columns.length; i++) {
+            initialBoard[i] = columns[i].clone();
+        }
+        // while game is not over
+        int pathResult = -2;
+        int col = -1;
+        boolean firstMove = true;
+        while((int)checkGameCompletion().get(0)==-1) {
+            int tempCol = -1;
+            // check if there is a winning move
+            for(int i = 0; i < columns.length; i++) {
+                makeMove(i);
+                // if winning move
+                if((int)checkGameCompletion().get(0)!=-1) {
+                    pathResult = (int)checkGameCompletion().get(0);
+                    tempCol = i;
+                    // if first move
+                    if(col==-1) {
+                        col = i;
+                    }
+                    // end loop
+                    i = columns.length;
+                }
+                System.out.print("He");
+                undoMove(i);
+                System.out.print("llo");
+            }
+            // if winning move was found, etc
+            if(tempCol != -1 && !firstMove) {
+                // move to winning position
+                makeMove(tempCol);
+            } else if (tempCol != -1 && firstMove) {
+                // move to winning position
+                makeMove(col);
+            } else if (tempCol == -1 && !firstMove) {
+                // make random move
+                tempCol = (int)(Math.random() * columns.length);
+                makeMove(tempCol);
+            } else {
+                // make random move
+                col = (int)(Math.random() * columns.length);
+                makeMove(col); 
+            }
+            // opponent makes random move
+            if((int)checkGameCompletion().get(0)==-1) {
+                tempCol = (int)(Math.random() * columns.length);
+                makeMove(tempCol);
+                if((int)checkGameCompletion().get(0)!=-1) {
+                    pathResult = -1*(int)checkGameCompletion().get(0);
+                }
+            }
+        }
+        if(pathResult==-2) pathResult=0;
+        // copy back current player
+        currPlayer = initialPlayer;
+        // copy back the board
+        columns = new Character[initialBoard.length][];
+        for(int i = 0; i < initialBoard.length; i++) {
+            columns[i] = initialBoard[i].clone();
+        }
+        // return values
+        retValues[0]=col;
+        retValues[1]=pathResult;
+        return retValues;
+    }
+    
     // make a move on the board
     private boolean makeMove(int c) {
-        c--;
         // if out of bounds
         if(c >= columns.length || c<0) {
             return false;
@@ -326,6 +434,30 @@ public class GameBoard {
             } else if (columns[c][r]==DC) {
                 // place dont count piece here
                 columns[c][r]=(currPlayer==PLAYER1)?PLAYER1_DC:PLAYER2_DC;
+                currPlayer = (currPlayer==PLAYER1)?PLAYER2:PLAYER1;
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // undo move on the board
+    private boolean undoMove(int c) {
+        // if out of bounds
+        if(c >= columns.length || c<0) {
+            return false;
+        }
+        // if there is a played spot
+        for(int r=columns[c].length-1;r>=0;r--) {
+            // if spot is taken
+            if(columns[c][r]==PLAYER1 || columns[c][r]==PLAYER2) {
+                // undo place piece here
+                columns[c][r]=EMPTY;
+                currPlayer = (currPlayer==PLAYER1)?PLAYER2:PLAYER1;
+                return true;
+            } else if (columns[c][r]==PLAYER1_DC || columns[c][r]==PLAYER2_DC) {
+                // place dont count piece here
+                columns[c][r]=DC;
                 currPlayer = (currPlayer==PLAYER1)?PLAYER2:PLAYER1;
                 return true;
             }
@@ -359,7 +491,7 @@ public class GameBoard {
                         tempR++;
                     }
                     if(numConsecutive >= 4) {
-                        retArray.add(true);
+                        retArray.add(1);
                         retArray.add(winPrint);
                         return retArray;
                     }
@@ -372,7 +504,7 @@ public class GameBoard {
                         tempR--;
                     }
                     if(numConsecutive >= 4) {
-                        retArray.add(true);
+                        retArray.add(1);
                         retArray.add(winPrint);
                         return retArray;
                     }
@@ -388,7 +520,7 @@ public class GameBoard {
                         tempC++;
                     }
                     if(numConsecutive >= 4) {
-                        retArray.add(true);
+                        retArray.add(1);
                         retArray.add(winPrint);
                         return retArray;
                     }
@@ -401,7 +533,7 @@ public class GameBoard {
                         tempC--;
                     }
                     if(numConsecutive >= 4) {
-                        retArray.add(true);
+                        retArray.add(1);
                         retArray.add(winPrint);
                         return retArray;
                     }
@@ -419,7 +551,7 @@ public class GameBoard {
                         tempR++;
                     }
                     if(numConsecutive >= 4) {
-                        retArray.add(true);
+                        retArray.add(1);
                         retArray.add(winPrint);
                         return retArray;
                     }
@@ -435,7 +567,7 @@ public class GameBoard {
                         tempR--;
                     }
                     if(numConsecutive >= 4) {
-                        retArray.add(true);
+                        retArray.add(1);
                         retArray.add(winPrint);
                         return retArray;
                     }
@@ -454,7 +586,7 @@ public class GameBoard {
                         tempR++;
                     }
                     if(numConsecutive >= 4) {
-                        retArray.add(true);
+                        retArray.add(1);
                         retArray.add(winPrint);
                         return retArray;
                     }
@@ -470,7 +602,7 @@ public class GameBoard {
                         tempR--;
                     }
                     if(numConsecutive >= 4) {
-                        retArray.add(true);
+                        retArray.add(1);
                         retArray.add(winPrint);
                         return retArray;
                     }
@@ -486,13 +618,13 @@ public class GameBoard {
         
         // if full board, return true
         if(emptyPositionsCount == 0) {
-            retArray.add(true);
+            retArray.add(0);
             retArray.add("It's a tie!");
             return retArray;
         }
         
         // else, return false
-        retArray.add(false);
+        retArray.add(-1);
         retArray.add("No one has won yet.");
         return retArray;
     }
