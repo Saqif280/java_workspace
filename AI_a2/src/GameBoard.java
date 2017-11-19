@@ -9,13 +9,13 @@ import java.util.Scanner;
 // class for creating a game
 public class GameBoard {
     // final variables
-    private static final Character PLAYER1 = 'X';
-    private static final Character PLAYER2 = 'O';
-    private static final Character PLAYER1_DC = 'x';
-    private static final Character PLAYER2_DC = 'o';
-    private static final Character DC = '!';
-    private static final Character UNPLAYABLE = '#';
-    private static final Character EMPTY = ' ';
+    public static final Character PLAYER1 = 'X';
+    public static final Character PLAYER2 = 'O';
+    public static final Character PLAYER1_DC = 'x';
+    public static final Character PLAYER2_DC = 'o';
+    public static final Character DC = '!';
+    public static final Character UNPLAYABLE = '#';
+    public static final Character EMPTY = ' ';
     
     // instance variables
     private Character[][] columns;
@@ -23,6 +23,10 @@ public class GameBoard {
     private int[] dcCell2;
     private Character currPlayer = PLAYER1;
     private Scanner sc = new Scanner(System.in);
+    
+    // backup variables
+    private Character[][] columnsBackup;
+    private Character currPlayerBackup;
     
     // make gameboard from prompts and rungame
     public GameBoard() {
@@ -169,6 +173,11 @@ public class GameBoard {
                 
             }
         }
+        // copy board to backup
+        columnsBackup = new Character[columns.length][];
+        for(int i = 0; i < columns.length; i++) {
+            columnsBackup[i] = columns[i].clone();
+        }
         printBoard();
         
         // asks whos playing
@@ -201,15 +210,16 @@ public class GameBoard {
             }
         }
         currPlayer=(tempCurrPlayer==1)?PLAYER1:PLAYER2;
+        currPlayerBackup = currPlayer;
         
         // ask for computer difficulty
         int comp1diff = -1;
         int comp2diff = -1;
         while(comp1diff==-1) {
-            System.out.println("What is one computer player's difficulty? (1-25000)");
+            System.out.println("What is one computer player's difficulty? (1-10000)");
             if(sc.hasNextInt()) {
                 comp1diff = sc.nextInt();
-                if(comp1diff < 1 || comp1diff > 25000) {
+                if(comp1diff < 1 || comp1diff > 10000) {
                     comp1diff = -1;
                 }
             } else {
@@ -218,10 +228,10 @@ public class GameBoard {
         }
         if(players==0) {
             while(comp2diff==-1) {
-                System.out.println("What is other computer player's difficulty? (1-25000)");
+                System.out.println("What is other computer player's difficulty? (1-10000)");
                 if(sc.hasNextInt()) {
                     comp2diff = sc.nextInt();
-                    if(comp2diff < 1 || comp2diff > 25000) {
+                    if(comp2diff < 1 || comp2diff > 10000) {
                         comp2diff = -1;
                     }
                 } else {
@@ -236,9 +246,11 @@ public class GameBoard {
     }
     
     // make gameboard with specs
-    public GameBoard(int[] c, int[] dc1, int[] dc2) {
+    public GameBoard(int[] c, int[] dc1, int[] dc2, Character first) {
         dcCell1 = dc1;
         dcCell2 = dc2;
+        currPlayer = first;
+        currPlayerBackup = currPlayer;
         
         // initialize gameboard size
         int cols = c.length;
@@ -265,12 +277,19 @@ public class GameBoard {
                 
             }
         }
+        // copy board to backup
+        columnsBackup = new Character[columns.length][];
+        for(int i = 0; i < columns.length; i++) {
+            columnsBackup[i] = columns[i].clone();
+        }
     }
     
     // run game
     public void runGame(int p, int c1diff, int c2diff) {
-     // if human participant
+        resetBoard();
+        // if human participant
         if(p==1) {
+            printBoard();
             // ask to make move until game ends
             while((int)checkGameCompletion().get(0)==-1) {
                 System.out.println();
@@ -314,8 +333,8 @@ public class GameBoard {
                     int col = monteCarloSearch(c2diff);
                     makeMove(col);
                 }
-                printBoard();
-                System.out.println((String)checkGameCompletion().get(1));
+                //printBoard();
+                //System.out.println((String)checkGameCompletion().get(1));
             }
         }
     }
@@ -356,11 +375,6 @@ public class GameBoard {
             }
         }
         
-//        for(int i=0;i<ratios.length;i++) {
-//            System.out.println(i+": "+ratios[i][0]+"-"+ratios[i][1]+"-"+ratios[i][2]);
-//        }
-        
-        System.out.println("Best Column"+bestRatioCol);
         return bestRatioCol;
     }
     
@@ -508,7 +522,7 @@ public class GameBoard {
     }
     
     // check if game is done
-    private ArrayList<Object> checkGameCompletion() {
+    public ArrayList<Object> checkGameCompletion() {
         ArrayList<Object> retArray = new ArrayList<Object>();;
         int emptyPositionsCount = 0;
         // if four in a row, return true
@@ -675,18 +689,31 @@ public class GameBoard {
     private void printBoard() {
         System.out.println("\nGame Board:");
         for(int r=columns[0].length-1;r>=0;r--) {
-            System.out.print("R"+(r+1)+" ");
+            System.out.print(" ");
             for(int c=0;c<columns.length;c++) {
                 System.out.print("["+columns[c][r]+"]");
             }
             System.out.println();
         }
-        System.out.print("    ");
+        System.out.print(" ");
         for(int c=0;c<columns.length;c++) {
-            System.out.print("C"+(c+1)+" ");
+            System.out.print(" "+(c+1)+" ");
         }
         System.out.print("\n\n");
     }
     
-    
+    // reset board to run game again
+    private void resetBoard() {
+        // copy backup to board
+        columns = new Character[columnsBackup.length][];
+        for(int i = 0; i < columnsBackup.length; i++) {
+            columns[i] = columnsBackup[i].clone();
+        }
+        currPlayer = currPlayerBackup;
+    }
+
+    // get current player
+    public Character getCurrentPlayer() {
+        return currPlayer;
+    }
 }
