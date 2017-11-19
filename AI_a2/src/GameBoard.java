@@ -302,8 +302,21 @@ public class GameBoard {
             }
             sc.close();
         } else {
+            sc.close();
             // play comp game
-            System.out.println("Not implemented yet.");
+            while((int)checkGameCompletion().get(0)==-1) {
+                //System.out.println();
+                // if comp1 turn
+                if(currPlayer==PLAYER1) {
+                    int col = monteCarloSearch(c1diff);
+                    makeMove(col);
+                } else if ((int)checkGameCompletion().get(0)==-1) {
+                    int col = monteCarloSearch(c2diff);
+                    makeMove(col);
+                }
+                printBoard();
+                System.out.println((String)checkGameCompletion().get(1));
+            }
         }
     }
     
