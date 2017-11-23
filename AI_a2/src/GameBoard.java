@@ -1,13 +1,14 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /**
  * Name: Saqif Badruddin
  * Student ID: 17200777
  * */
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 // class for creating a game
 public class GameBoard {
+    
     // final variables
     public static final Character PLAYER1 = 'X';
     public static final Character PLAYER2 = 'O';
@@ -371,7 +372,6 @@ public class GameBoard {
                     bestRatio = tempRatio;
                     bestRatioCol = i;
                 }
-                //System.out.println(i+":"+tempRatio+" = "+ratios[i][0]+"/"+ratios[i][1]);
             }
         }
         
@@ -537,133 +537,32 @@ public class GameBoard {
                     int tempC = c;
                     int numConsecutive;
                     
-                    // explore vertical positions
-                    numConsecutive = 1;
-                    // move up
-                    while(numConsecutive < 4
-                            && tempR+1<columns[c].length
-                            && columns[c][tempR+1] == player) {
-                        numConsecutive++;
-                        tempR++;
-                    }
-                    if(numConsecutive >= 4) {
-                        retArray.add(1);
-                        retArray.add(winPrint);
-                        return retArray;
-                    }
-                    tempR = r;
-                    // move down
-                    while(numConsecutive < 4
-                            && tempR-1 >= 0
-                            && columns[c][tempR-1] == player) {
-                        numConsecutive++;
-                        tempR--;
-                    }
-                    if(numConsecutive >= 4) {
-                        retArray.add(1);
-                        retArray.add(winPrint);
-                        return retArray;
-                    }
-                    tempR = r;
+                    // move: down, right, down left, down right
+                    int[] rdirs = new int[] {-1,0,-1,-1};
+                    int[] cdirs = new int[] {0,1,-1,1};
                     
-                    // explore horizontal positions
-                    numConsecutive = 1;
-                    // move right
-                    while(numConsecutive < 4
-                            && tempC+1<columns.length
-                            && columns[tempC+1][r] == player) {
-                        numConsecutive++;
-                        tempC++;
+                    for(int i=0;i<rdirs.length;i++) {
+                        numConsecutive = 1;
+                        // move dir
+                        while(numConsecutive < 4
+                                && tempR+rdirs[i] >= 0
+                                && tempR+rdirs[i] < columns[0].length
+                                && tempC+cdirs[i] >= 0
+                                && tempC+cdirs[i] < columns.length
+                                && columns[tempC+cdirs[i]][tempR+rdirs[i]] == player) {
+                            numConsecutive++;
+                            tempR+=rdirs[i];
+                            tempC+=cdirs[i];
+                        }
+                        if(numConsecutive >= 4) {
+                            retArray.add(1);
+                            retArray.add(winPrint);
+                            return retArray;
+                        }
+                        tempR = r;
+                        tempC = c;
                     }
-                    if(numConsecutive >= 4) {
-                        retArray.add(1);
-                        retArray.add(winPrint);
-                        return retArray;
-                    }
-                    tempC = c;
-                    // move down
-                    while(numConsecutive < 4
-                            && tempC-1 >=0
-                            && columns[tempC-1][r] == player) {
-                        numConsecutive++;
-                        tempC--;
-                    }
-                    if(numConsecutive >= 4) {
-                        retArray.add(1);
-                        retArray.add(winPrint);
-                        return retArray;
-                    }
-                    tempC = c;
-                    
-                    // explore diagonal1 positions
-                    numConsecutive = 1;
-                    // move up right
-                    while(numConsecutive < 4
-                            && tempC+1<columns.length
-                            && tempR+1<columns[c].length
-                            && columns[tempC+1][tempR+1] == player) {
-                        numConsecutive++;
-                        tempC++;
-                        tempR++;
-                    }
-                    if(numConsecutive >= 4) {
-                        retArray.add(1);
-                        retArray.add(winPrint);
-                        return retArray;
-                    }
-                    tempC = c;
-                    tempR = r;
-                    // move down left
-                    while(numConsecutive < 4
-                            && tempC-1>=0
-                            && tempR-1>=0
-                            && columns[tempC-1][tempR-1] == player) {
-                        numConsecutive++;
-                        tempC--;
-                        tempR--;
-                    }
-                    if(numConsecutive >= 4) {
-                        retArray.add(1);
-                        retArray.add(winPrint);
-                        return retArray;
-                    }
-                    tempC = c;
-                    tempR = r;
-                    
-                    // explore diagonal2 positions
-                    numConsecutive = 1;
-                    // move up left
-                    while(numConsecutive < 4
-                            && tempC-1>=0
-                            && tempR+1<columns[c].length
-                            && columns[tempC-1][tempR+1] == player) {
-                        numConsecutive++;
-                        tempC--;
-                        tempR++;
-                    }
-                    if(numConsecutive >= 4) {
-                        retArray.add(1);
-                        retArray.add(winPrint);
-                        return retArray;
-                    }
-                    tempC = c;
-                    tempR = r;
-                    // move down right
-                    while(numConsecutive < 4
-                            && tempC+1<columns.length
-                            && tempR-1>=0
-                            && columns[tempC+1][tempR-1] == player) {
-                        numConsecutive++;
-                        tempC++;
-                        tempR--;
-                    }
-                    if(numConsecutive >= 4) {
-                        retArray.add(1);
-                        retArray.add(winPrint);
-                        return retArray;
-                    }
-                    tempC = c;
-                    tempR = r;
+
                     
                 } else if (columns[c][r] == EMPTY
                         || columns[c][r] == DC) {
@@ -716,4 +615,5 @@ public class GameBoard {
     public Character getCurrentPlayer() {
         return currPlayer;
     }
+
 }
